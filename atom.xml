@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-02-20T12:27:37+08:00</updated>
+  <updated>2016-02-20T12:33:49+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -12,6 +12,17 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[技术博客]]></title>
+    <link href="http://liu3399shuai.github.io/blog/2016/02/20/ji-zhu-bo-ke/"/>
+    <updated>2016-02-20T12:31:42+08:00</updated>
+    <id>http://liu3399shuai.github.io/blog/2016/02/20/ji-zhu-bo-ke</id>
+    <content type="html"><![CDATA[<p>开通了技术博客，希望以后在这里写点东西，至少每个月写一篇博文！</p>
+
+<p>努力！奋斗！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[基于octopress的github-pages创建]]></title>
@@ -87,7 +98,7 @@
 
 <p><img src="http://liu3399shuai.github.io/images/ifelse.jpg" alt="" /></p>
 
-<p>联系我 <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#x6c;&#105;&#117;&#51;&#51;&#57;&#57;&#x73;&#x68;&#117;&#97;&#x69;&#64;&#x31;&#x36;&#x33;&#x2e;&#99;&#111;&#x6d;">&#x6c;&#105;&#117;&#51;&#51;&#57;&#57;&#x73;&#x68;&#117;&#x61;&#x69;&#64;&#49;&#x36;&#x33;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>联系我 <a href="&#109;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#108;&#x69;&#117;&#x33;&#51;&#x39;&#57;&#x73;&#x68;&#117;&#x61;&#x69;&#x40;&#49;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#x6c;&#105;&#117;&#x33;&#51;&#57;&#57;&#x73;&#x68;&#117;&#97;&#x69;&#64;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#x6d;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 
