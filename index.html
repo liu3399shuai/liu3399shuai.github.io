@@ -119,15 +119,7 @@
   </header>
 
 
-  <div class="entry-content"><p>markdone 是一个标记语言，和HTML一样，但HTML有门槛，所以有了markdone，但markdone使用真的很简单</p>
-
-<h1>标题1</h1>
-
-<h2>标题2</h2>
-
-<h5>标题5</h5>
-
-<p>参考链接</p>
+  <div class="entry-content"><h3>具体搭建博客的步骤参考这些链接</h3>
 
 <p><a href="http://sherlockyao.com/blog/2014/05/23/hello-blogging/">http://sherlockyao.com/blog/2014/05/23/hello-blogging/</a></p>
 
@@ -148,7 +140,111 @@
 
 <p><a href="http://stackoverflow.com/questions/19619280/octopress-pushing-error-to-github">http://stackoverflow.com/questions/19619280/octopress-pushing-error-to-github</a></p>
 
-<p>如果在使用 rake deploy 时候报出这样的错误，需要同步一下</p>
+<h3>发博文常用步骤</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake set_github_pages</span></code></pre></td></tr></table></div></figure>
+
+
+<p>输入要链接的URL ,就是github上面仓库为XXX.github.io里面的URL,我的是<a href="https://github.com/liu3399shuai/liu3399shuai.github.io.git">https://github.com/liu3399shuai/liu3399shuai.github.io.git</a>
+<img src="/images/github_url.png" alt="" /></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cd octopress
+</span><span class='line'>rake new_post["输入博文的title"]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>完了后去source/_post里面就可以看到了</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>rake generate
+</span><span class='line'>rake deploy
+</span><span class='line'>或者两个命令连城一个 rake gen_deploy</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个是发布的，发布成功后，隔几秒，刷新下github-page主页</p>
+
+<p>保留更改的source文件
+<code>git commit -m'msg'</code> and <code>git push origin source</code></p>
+
+<h3>注意问题</h3>
+
+<p>在走到bundle install 这一步时候，经常失败，比如原因有如下这个</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Don't run Bundler as root. Bundler can ask for sudo if it is needed, and
+</span><span class='line'>installing your bundle as root will break this application for all non-root
+</span><span class='line'>users on this machine.
+</span><span class='line'>Fetching gem metadata from https://rubygems.org/...........
+</span><span class='line'>Fetching version metadata from https://rubygems.org/...
+</span><span class='line'>Fetching dependency metadata from https://rubygems.org/..
+</span><span class='line'>Resolving dependencies...
+</span><span class='line'>Using rake 10.4.2
+</span><span class='line'>Using RedCloth 4.2.9
+</span><span class='line'>Using blankslate 2.1.2.4
+</span><span class='line'>Using hitimes 1.2.2
+</span><span class='line'>Using timers 4.0.1
+</span><span class='line'>Using celluloid 0.16.0
+</span><span class='line'>Using chunky_png 1.3.4
+</span><span class='line'>Using fast-stemmer 1.0.2
+</span><span class='line'>Using classifier-reborn 2.0.3
+</span><span class='line'>Using coffee-script-source 1.9.1.1
+</span><span class='line'>Using execjs 2.5.2
+</span><span class='line'>Using coffee-script 2.4.1
+</span><span class='line'>Using colorator 0.1
+</span><span class='line'>Using multi_json 1.11.2
+</span><span class='line'>Using sass 3.4.15
+</span><span class='line'>Using compass-core 1.0.3
+</span><span class='line'>Using compass-import-once 1.0.5
+</span><span class='line'>Using rb-fsevent 0.9.5
+</span><span class='line'>Using ffi 1.9.10
+</span><span class='line'>
+</span><span class='line'>Gem::RemoteFetcher::FetchError: Errno::ECONNRESET: Connection reset by peer - SSL_connect (https://rubygems.org/gems/rb-inotify-0.9.5.gem)
+</span><span class='line'>An error occurred while installing rb-inotify (0.9.5), and Bundler cannot
+</span><span class='line'>continue.
+</span><span class='line'>Make sure that `gem install rb-inotify -v '0.9.5'` succeeds before bundling.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>因为国内被墙的原因，解决方案 :在执行目录下得到一个Gemfile文件，用文本编辑器打开，修改为</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>source "https://ruby.taobao.org"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果在使用 rake deploy rake gen_deploy 时候报出这样的错误，需要同步一下</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -182,73 +278,11 @@
 </span><span class='line'>cd ..</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这样你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
+<p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p><img src="http://img2.3lian.com/img2007/10/28/123.jpg" alt="" /></p>
-
-<p><img src="/images/ifelse.jpg" alt="" /></p>
-
-<p>联系我 <a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#111;&#58;&#x6c;&#x69;&#x75;&#51;&#51;&#x39;&#x39;&#115;&#104;&#x75;&#x61;&#x69;&#64;&#49;&#54;&#x33;&#x2e;&#x63;&#x6f;&#109;">&#108;&#x69;&#117;&#51;&#x33;&#x39;&#x39;&#115;&#104;&#x75;&#97;&#105;&#x40;&#x31;&#54;&#x33;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
+<p>联系我 <a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#108;&#x69;&#x75;&#x33;&#x33;&#x39;&#x39;&#115;&#104;&#x75;&#97;&#105;&#64;&#x31;&#54;&#51;&#46;&#x63;&#x6f;&#109;">&#108;&#105;&#117;&#x33;&#51;&#x39;&#57;&#115;&#104;&#117;&#x61;&#x69;&#x40;&#49;&#54;&#51;&#46;&#x63;&#111;&#109;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
-
-<p>分类看吧</p>
-
-<ul>
-<li>基础篇</li>
-<li>中级篇</li>
-<li>升级篇</li>
-</ul>
-
-
-<blockquote><p>引用别人的啊
-good goodgood</p></blockquote>
-
-<p>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</p>
-
-<p>看代码</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>for (int i = 0; i &lt; 10;i++)
-</span><span class='line'>{
-</span><span class='line'>  printf("%d",i);
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<blockquote><p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p></blockquote>
-
-<p><del>这样你的第一篇日志就发布出来了，恭喜你正式开通了基于 Octopress 的独立博客。</del></p>
-
-<p><u>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</u></p>
-
-<p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p>
-
-<p>这样你的第一篇日志就发布出来了，恭喜你正式开通了基于 Octopress 的独立博客。</p>
-
-<p>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</p>
-
-<p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p>
-
-<p>这样你的第一篇日志就发布出来了，恭喜你正式开通了基于 Octopress 的独立博客。</p>
-
-<p>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</p>
-
-<p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p>
-
-<p>这样你的第一篇日志就发布出来了，恭喜你正式开通了基于 Octopress 的独立博客。</p>
-
-<p>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</p>
-
-<p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p>
-
-<p>这样你的第一篇日志就发布出来了，恭喜你正式开通了基于 Octopress 的独立博客。</p>
-
-<p>当然你会发现似乎文章作者不是你，界面是英文显示，整体排版效果差强人意等等问题，不着急，我们会在接下来的文章中讲解如何配置和修改 Octopress 博客。</p>
-
-<p>对于实用性知识，我的向来的态度是「精益学习」，先把最核心最当紧的问题解决了，其余问题发现一例解决一例，不断在干中学，不断版本迭代。后面讲到如何配置修改 Octopress 博客的文章就秉承这一原则，先将遇到了什么问题，然后将如何寻找解决方法。</p>
 </div>
   
   
