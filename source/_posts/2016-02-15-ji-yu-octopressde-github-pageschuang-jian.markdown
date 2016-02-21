@@ -30,16 +30,21 @@ http://stackoverflow.com/questions/19619280/octopress-pushing-error-to-github
 ### 发博文常用步骤
 
 ```
-rake set_github_pages
+cd octopress
+rake setup_github_pages
 ```
 输入要链接的URL ,就是github上面仓库为XXX.github.io里面的URL,我的是https://github.com/liu3399shuai/liu3399shuai.github.io.git
+
 ![](/images/github_url.png)
 
+新建博文
+
 ```
-cd octopress
 rake new_post["输入博文的title"]
 ```
 完了后去source/_post里面就可以看到了
+
+打开博文，使用markdown软件编辑，[macDown](http://macdown.uranusjr.com/) 或者 [Mou](http://25.io/mou/)都可以,写完后去生成网页，发布
 
 ```
 rake generate
