@@ -9,8 +9,9 @@
   <meta name="author" content="刘帅">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="what is it ? 带有缓存的异步图片下载器，这个库提供了一个UIImageView的类别，这个类别支持远程图片资源加载并显示，源码链接SDWebImage 框架结构 如图 从它的文件夹分类看，有这么几层 资源下载及管理资源下载
+资源缓存
+UI层使用资源，以类别形式体现，引入头文件，直接使用 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -85,7 +86,164 @@
   </header>
 
 
-<div class="entry-content"><p><img src="/images/sdwebimage.jpg" alt="" /></p>
+<div class="entry-content"><h3>what is it ?</h3>
+
+<p>带有缓存的异步图片下载器，这个库提供了一个UIImageView的类别，这个类别支持远程图片资源加载并显示，源码链接<a href="https://github.com/rs/SDWebImage">SDWebImage</a></p>
+
+<h3>框架结构</h3>
+
+<p>如图
+<img src="/images/sdwebimage.jpg" alt="" /></p>
+
+<p>从它的文件夹分类看，有这么几层</p>
+
+<ul>
+<li>资源下载及管理资源下载</li>
+<li>资源缓存</li>
+<li>UI层使用资源，以类别形式体现，引入头文件，直接使用</li>
+</ul>
+
+
+<h4>资源下载</h4>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDWebImageDownloaderOperation.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个类封装一个完整的下载任务 : 继承于NSOperation，在里面创建一个用于下载的NSURLConnection，绑定下载需要的request，打开当前线程runloop，实现NSURLConnection的代理方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDWebImageDownloader.h
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个类负责下载管理器downloaderManager : 对外部下载的入口封装 ，利用自己的operationQueue 将每个用于下载创建的operation进行管理</p>
+
+<h3>资源缓存</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDImageCache.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个类负责缓存文件管理 : 增加新的文件、删除存储的文件、查找存储的文件、计算、清除 存储的容量等、设定存储容量，文件数量等</p>
+
+<p>例如</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[[SDImageCache sharedImageCache] storeImage:myImage forKey:myCacheKey];
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDImageCache *imageCache = [[SDImageCache alloc] initWithNamespace:@"myNamespace"];
+</span><span class='line'>[imageCache queryDiskCacheForKey:myCacheKey done:^(UIImage *image) {
+</span><span class='line'>    // image is not nil if image was found
+</span><span class='line'>}];
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>管理</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDWebImageManager.h</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个类是 webimage 任务的总入口，集成 下载部分 + 缓存部分</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>SDWebImageManager *manager = [SDWebImageManager sharedManager];
+</span><span class='line'>[manager downloadImageWithURL:imageURL
+</span><span class='line'>                      options:0
+</span><span class='line'>                     progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+</span><span class='line'>                         // progression tracking code
+</span><span class='line'>                     }
+</span><span class='line'>                     completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+</span><span class='line'>                         if (image) {
+</span><span class='line'>                             // do something with image
+</span><span class='line'>                         }
+</span><span class='line'>                     }];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>用户使用层</h3>
+
+<p>都是以category形式对类进行方法扩展，直接调用即可</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#import &lt;SDWebImage/UIImageView+WebCache.h&gt;
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+</span><span class='line'>    static NSString *MyIdentifier = @"MyIdentifier";
+</span><span class='line'>
+</span><span class='line'>    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+</span><span class='line'>    if (cell == nil) {
+</span><span class='line'>        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+</span><span class='line'>                                       reuseIdentifier:MyIdentifier] autorelease];
+</span><span class='line'>    }
+</span><span class='line'>
+</span><span class='line'>    // Here we use the new provided sd_setImageWithURL: method to load the web image
+</span><span class='line'>    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"http://www.domain.com/path/to/image.jpg"]
+</span><span class='line'>                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]];
+</span><span class='line'>
+</span><span class='line'>    cell.textLabel.text = @"My Text";
+</span><span class='line'>    return cell;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者这样</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Here we use the new provided sd_setImageWithURL: method to load the web image
+</span><span class='line'>[cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"http://www.domain.com/path/to/image.jpg"]
+</span><span class='line'>                      placeholderImage:[UIImage imageNamed:@"placeholder.png"]
+</span><span class='line'>                             completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+</span><span class='line'>                                ... completion code here ...
+</span><span class='line'>                             }];</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>图示流</h3>
+
+<p><img src="/images/webimage_flow.jpg" alt="" /></p>
 </div>
 
 
