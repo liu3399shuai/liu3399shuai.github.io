@@ -16,6 +16,8 @@ categories:
 
 ![](/images/sdwebimage.jpg)
 
+![](/images/sdwebimage_ifelse.png)
+
 从它的文件夹分类看，有这么几层
 
 * 资源下载及管理资源下载
@@ -34,6 +36,11 @@ SDWebImageDownloader.h
 
 ```
 这个类负责下载管理器downloaderManager : 对外部下载的入口封装 ，利用自己的operationQueue 将每个用于下载创建的operation进行管理
+
+可以把它看做下图的功能
+
+![](/images/downloadmanager.jpg)
+
 
 ### 资源缓存
 
