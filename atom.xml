@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-02-22T11:39:23+08:00</updated>
+  <updated>2016-02-22T11:40:47+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -56,7 +56,7 @@
 
 <p>可以把它看做下图的功能</p>
 
-<p><img src="downloadmanager.jpg" alt="" /></p>
+<p><img src="http://liu3399shuai.github.io/images/downloadmanager.jpg" alt="" /></p>
 
 <h3>资源缓存</h3>
 
@@ -373,7 +373,7 @@
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#109;&#97;&#105;&#108;&#116;&#x6f;&#58;&#x6c;&#x69;&#117;&#x33;&#51;&#x39;&#x39;&#x73;&#104;&#x75;&#97;&#105;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;">&#x6c;&#105;&#x75;&#x33;&#x33;&#x39;&#x39;&#x73;&#x68;&#x75;&#x61;&#105;&#64;&#49;&#54;&#51;&#x2e;&#x63;&#x6f;&#109;</a></p>
+<p>联系我 <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#108;&#105;&#x75;&#x33;&#x33;&#57;&#57;&#115;&#x68;&#x75;&#x61;&#x69;&#64;&#49;&#54;&#51;&#x2e;&#99;&#111;&#109;">&#x6c;&#x69;&#x75;&#x33;&#x33;&#57;&#x39;&#x73;&#104;&#x75;&#x61;&#105;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#111;&#109;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 ]]></content>
