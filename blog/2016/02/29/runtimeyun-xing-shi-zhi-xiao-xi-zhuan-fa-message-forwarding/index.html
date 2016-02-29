@@ -106,6 +106,8 @@
 
 <p>参考  <a href="http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html">http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html</a></p>
 
+<p><img src="/images/runtime_forwarding3.png" alt="" /></p>
+
 <p>在第三步调用 -(void)forwardInvocation:(NSInvocation <em>)anInvocation   之前为什么要调用
 这个方法呢 -(NSMethodSignature </em>)methodSignatureForSelector:(SEL)aSelector  ，因为method 由 sel 、type、implement  组成的，只知道一个sel肯定是不行的，所以通过MethodSignature方法给sel一个标签，就是定义下它的参数返回值类型。</p>
 </div>
@@ -164,11 +166,11 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量</a>
+        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量(variable)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之class</a>
+        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之类(class)</a>
       </li>
     
       <li class="post">

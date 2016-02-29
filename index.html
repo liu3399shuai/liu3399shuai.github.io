@@ -109,6 +109,8 @@
 
 <p>参考  <a href="http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html">http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html</a></p>
 
+<p><img src="/images/runtime_forwarding3.png" alt="" /></p>
+
 <p>在第三步调用 -(void)forwardInvocation:(NSInvocation <em>)anInvocation   之前为什么要调用
 这个方法呢 -(NSMethodSignature </em>)methodSignatureForSelector:(SEL)aSelector  ，因为method 由 sel 、type、implement  组成的，只知道一个sel肯定是不行的，所以通过MethodSignature方法给sel一个标签，就是定义下它的参数返回值类型。</p>
 </div>
@@ -145,9 +147,11 @@
 
 <p>a Method is a combination of a selector and an implement</p>
 
-<p>method 组成结构体
-<img src="/images/runtime_method1.png" alt="" />
-<img src="/images/runtime_method2.png" alt="" /></p>
+<p>method 组成结构体</p>
+
+<p><img src="/images/runtime_method1.png" alt="" /></p>
+
+<p><img src="/images/runtime_method2.png" alt="" /></p>
 
 <p>runtime 处理method相关方法</p>
 
@@ -195,7 +199,7 @@ class的方法列表其实是一个字典，key为selectors，IMPs为value。一
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量(variable)</a></h1>
     
     
       <p class="meta">
@@ -243,7 +247,7 @@ class的方法列表其实是一个字典，key为selectors，IMPs为value。一
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之class</a></h1>
+      <h1 class="entry-title"><a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之类(class)</a></h1>
     
     
       <p class="meta">
@@ -265,7 +269,7 @@ class的方法列表其实是一个字典，key为selectors，IMPs为value。一
 面向对象就是造出了个class，class 类 就是一个指向结构体的指针变量，类里面的方法变量等都存放到了结构体里面的成员成员变量中
 链表把数据串起来，形成一个组织</p>
 
-<p><img src="/images/runtime_class.png" alt="" /></p>
+<p><img src="/images/runtime_class1.png" alt="" /></p>
 
 <p>class 里面主要由 变量、属性、方法、协议、类别</p>
 
@@ -766,7 +770,7 @@ class_getClassMethod 类的方法 +加方法</p>
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#x3a;&#x6c;&#x69;&#x75;&#51;&#51;&#x39;&#57;&#115;&#x68;&#x75;&#x61;&#105;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#x6d;">&#108;&#105;&#117;&#51;&#51;&#x39;&#57;&#115;&#104;&#117;&#x61;&#x69;&#x40;&#x31;&#x36;&#x33;&#46;&#x63;&#x6f;&#x6d;</a></p>
+<p>联系我 <a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#108;&#x69;&#x75;&#x33;&#51;&#57;&#57;&#115;&#104;&#117;&#97;&#x69;&#64;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#108;&#105;&#117;&#51;&#51;&#57;&#x39;&#x73;&#104;&#x75;&#97;&#105;&#64;&#x31;&#x36;&#x33;&#x2e;&#x63;&#x6f;&#x6d;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 </div>
@@ -797,11 +801,11 @@ class_getClassMethod 类的方法 +加方法</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量</a>
+        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/">Runtime运行时之变量(variable)</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之class</a>
+        <a href="/blog/2016/02/29/runtimeyun-xing-shi-zhi-class/">Runtime运行时之类(class)</a>
       </li>
     
       <li class="post">
