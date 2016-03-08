@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-03-08T21:10:32+08:00</updated>
+  <updated>2016-03-08T23:57:28+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -18,19 +18,202 @@
     <link href="http://liu3399shuai.github.io/blog/2016/03/08/ruan-jian-jia-gou-mvvm/"/>
     <updated>2016-03-08T18:33:52+08:00</updated>
     <id>http://liu3399shuai.github.io/blog/2016/03/08/ruan-jian-jia-gou-mvvm</id>
-    <content type="html"><![CDATA[<p><img src="http://liu3399shuai.github.io/images/mvc.png" alt="" /></p>
+    <content type="html"><![CDATA[<p>软件层次：</p>
 
-<p>why</p>
+<p>工具层(utility，通用的工具，和具体的业务无关)</p>
 
-<p><img src="http://liu3399shuai.github.io/images/mvvm1.png" alt="" /></p>
+<p>网络层(负责和server进行交互)</p>
 
-<p>why2</p>
+<p>数据持久层(本地缓存、数据库)</p>
 
-<p><img src="http://liu3399shuai.github.io/images/mvvm2.png" alt="" /></p>
+<p>model层(原始数据的载体，比如来自网络或数据库的时间戳，不进行处数据理)</p>
 
-<p>why3</p>
+<p>逻辑层(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层，也可以给一个业务功能多个界面增加一个逻辑层)</p>
 
-<p><img src="http://liu3399shuai.github.io/images/mvvm3.png" alt="" /></p>
+<p>UI层(显示的view)</p>
+
+<p>控制层(controller是个大杂炖，上面那些层都在这个controller里面彼此交互)</p>
+
+<p>软件框架大多是MVC模式</p>
+
+<p><img src="http://liu3399shuai.github.io/images/mvc.png" alt="" /></p>
+
+<p>缺点：经常会导致C很臃肿，不易管理，所以出现了MVVM。</p>
+
+<p>MVVM就是将业务逻辑从controller里面抽出来单独生成一个类，降低耦合</p>
+
+<p>如果要想把业务逻辑从controller中抽取出来，以实现逻辑层(viewmodel)是逻辑的载体，那么逻辑层至少需要</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1 实时的接受view里面各种数据源和事件源的变化(比如输入框、按钮等)
+</span><span class='line'>2 逻辑任务处理完成后将数据、动作输出至view/controller</span></code></pre></td></tr></table></div></figure>
+
+
+<p>要实现这两条，就需要<code>响应式编程</code>的概念。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>函数响应式编程(Functional Reactive Programing : FRP)  :  面向数据流的变化传播(管道处理，比如过滤，类型映射，订阅，组合,属性绑定)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>比如 excel 3-8数码管 订阅(公众号、日报),详见<a href="https://zh.wikipedia.org/wiki/%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B">wiki</a></p>
+
+<p>数据流，逻辑流 这种概念思想很重要,和命令式编程大不一样</p>
+
+<p>由此，Reactive Cocoa 应运而生。</p>
+
+<p>Reactive Cocoa 可以承担以下任务</p>
+
+<p>1 数据流统一封装分发
+<img src="http://liu3399shuai.github.io/images/mvvm3.png" alt="" /></p>
+
+<p>2 数据(双向)绑定
+<img src="http://liu3399shuai.github.io/images/mvvm1.png" alt="" /></p>
+
+<p>3 动作事件通知
+<img src="http://liu3399shuai.github.io/images/mvvm2.png" alt="" /></p>
+
+<p>代码实例</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// data binding
+</span><span class='line'>RAC(_viewModel,phone) = _phoneTF.rac_textSignal; // 这样可以(只能)观察到textField 源于键盘输入导致的值变化
+</span><span class='line'>RAC(_phoneTF,text) = [RACObserve(_viewModel, phone) distinctUntilChanged];
+</span><span class='line'>
+</span><span class='line'>// 清空_phoneTF
+</span><span class='line'>_viewModel.phone = @""; // 代码实现
+</span><span class='line'>// _phoneTF.text = nil; // 这种方式不行</span></code></pre></td></tr></table></div></figure>
+
+
+<p>关于使用RAC(&hellip;)，有时会有这样的错误<code>error : is already bound to key path "" on object  rac</code>，原因是</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>RAC(self.viewModel,smsCode) = _phoneTF.rac_textSignal;
+</span><span class='line'>RAC(self.viewModel,smsCode) = _codeTF.rac_textSignal;
+</span><span class='line'>给smsCode只能绑定一次,绑给别的信号了，就不能再绑给另外一个信号了,所以绑定慎用，但可以subscribeNext啊</span></code></pre></td></tr></table></div></figure>
+
+
+<p>[RACSignal createSignal] 方式创建signal，只创建一次就OK</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(RACSignal *)validatePhoneSignal
+</span><span class='line'>{
+</span><span class='line'>    if (!_validatePhoneSignal) {
+</span><span class='line'>        _validatePhoneSignal = [RACSignal createSignal:^RACDisposable *(id&lt;RACSubscriber&gt; subscriber) {
+</span><span class='line'>            
+</span><span class='line'>            if (isValid([[UserBaseInfo share] identityName]) && _idCode.length != 15 && _idCode.length != 18) {
+</span><span class='line'>                [subscriber sendError:Error(errCode_toast, @"请输入正确的15或18位身份证号")];
+</span><span class='line'>                return nil;
+</span><span class='line'>            }
+</span><span class='line'>            
+</span><span class='line'>            [_service verifyCode:_smsCode idCard:_idCode finish:^(NSError *error) {
+</span><span class='line'>                
+</span><span class='line'>                if (error) {
+</span><span class='line'>                    [subscriber sendError:error];
+</span><span class='line'>                }else{
+</span><span class='line'>                    
+</span><span class='line'>                    [subscriber sendNext:@(YES)];
+</span><span class='line'>                    [subscriber sendCompleted];
+</span><span class='line'>                }
+</span><span class='line'>            }];
+</span><span class='line'>            
+</span><span class='line'>            return nil;
+</span><span class='line'>        }];
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    return _validatePhoneSignal;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>[RACSubject subject] 创建的signal，每次都得创建</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(RACSignal *)rechargeSignal
+</span><span class='line'>{    
+</span><span class='line'>    RACReplaySubject *subject = [RACReplaySubject subject];
+</span><span class='line'>    _rechargeSignal = [subject deliverOnMainThread];
+</span><span class='line'>    
+</span><span class='line'>    [self.submitSignal subscribeNext:^(NSNumber *x) {
+</span><span class='line'>        
+</span><span class='line'>        if (x.boolValue) {
+</span><span class='line'>            [subject sendNext:@(YES)];
+</span><span class='line'>            [subject sendCompleted];
+</span><span class='line'>        }else{
+</span><span class='line'>            [self.querySignal subscribeNext:^(id x) {
+</span><span class='line'>                [subject sendNext:@(YES)];
+</span><span class='line'>                [subject sendCompleted];
+</span><span class='line'>            } error:^(NSError *error) {
+</span><span class='line'>                [subject sendError:error];
+</span><span class='line'>            }];
+</span><span class='line'>        }
+</span><span class='line'>        
+</span><span class='line'>    } error:^(NSError *error) {
+</span><span class='line'>        [subject sendError:error];
+</span><span class='line'>    }];
+</span><span class='line'>            
+</span><span class='line'>    return _rechargeSignal;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -582,7 +765,7 @@ class_getClassMethod 类的方法 +加方法</p>
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#58;&#x6c;&#x69;&#x75;&#x33;&#51;&#x39;&#x39;&#115;&#x68;&#117;&#x61;&#x69;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#x6d;">&#108;&#105;&#117;&#x33;&#x33;&#57;&#x39;&#115;&#x68;&#117;&#97;&#105;&#x40;&#x31;&#54;&#x33;&#46;&#x63;&#x6f;&#109;</a></p>
+<p>联系我 <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#108;&#105;&#117;&#x33;&#51;&#x39;&#57;&#115;&#104;&#x75;&#97;&#x69;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#x6c;&#105;&#x75;&#x33;&#x33;&#x39;&#57;&#x73;&#104;&#117;&#97;&#105;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 ]]></content>
