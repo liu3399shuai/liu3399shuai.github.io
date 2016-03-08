@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://liu3399shuai.github.io/blog/2016/03/08/ruan-jian-jia-gou-mvvm/</loc>
+<lastmod>2016-03-08T18:33:52+08:00</lastmod>
+</url>
+<url>
 <loc>http://liu3399shuai.github.io/blog/2016/02/29/runtimeyun-xing-shi-zhi-xiao-xi-zhuan-fa-message-forwarding/</loc>
 <lastmod>2016-02-29T18:56:57+08:00</lastmod>
 </url>
