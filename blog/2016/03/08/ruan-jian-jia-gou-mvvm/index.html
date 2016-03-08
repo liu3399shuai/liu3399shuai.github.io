@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>软件设计层次架构MVVM - 刘帅的技术博客</title>
+  <title>软件设计层次架构 - 刘帅的技术博客</title>
   <meta name="author" content="刘帅">
 
   
-  <meta name="description" content="软件层次： 工具层(utility，通用的工具，和具体的业务无关) 网络层(负责和server进行交互) 数据持久层(本地缓存、数据库) model层(原始数据的载体，比如来自网络或数据库的时间戳，不进行处数据理) 逻辑层(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层， &hellip;">
+  <meta name="description" content="软件层次 工具层(utility，通用的工具，和具体的业务无关) 网络层(负责和server进行交互) 数据持久层(本地缓存、数据库) model层(原始数据的类载体，比如来自网络或数据库的时间戳，不进行处数据理) 逻辑层(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,7 @@
   
   <header>
     
-      <h1 class="entry-title">软件设计层次架构MVVM</h1>
+      <h1 class="entry-title">软件设计层次架构</h1>
     
     
       <p class="meta">
@@ -84,29 +84,33 @@
   </header>
 
 
-<div class="entry-content"><p>软件层次：</p>
+<div class="entry-content"><h3>软件层次</h3>
 
-<p>工具层(utility，通用的工具，和具体的业务无关)</p>
+<p><code>工具层</code>(utility，通用的工具，和具体的业务无关)</p>
 
-<p>网络层(负责和server进行交互)</p>
+<p><code>网络层</code>(负责和server进行交互)</p>
 
-<p>数据持久层(本地缓存、数据库)</p>
+<p><code>数据持久层</code>(本地缓存、数据库)</p>
 
-<p>model层(原始数据的载体，比如来自网络或数据库的时间戳，不进行处数据理)</p>
+<p><code>model层</code>(原始数据的类载体，比如来自网络或数据库的时间戳，不进行处数据理)</p>
 
-<p>逻辑层(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层，也可以给一个业务功能多个界面增加一个逻辑层)</p>
+<p><code>逻辑层</code>(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层，也可以给一个业务功能多个界面增加一个逻辑层)</p>
 
-<p>UI层(显示的view)</p>
+<p><code>UI层</code>(显示的view)</p>
 
-<p>控制层(controller是个大杂炖，上面那些层都在这个controller里面彼此交互)</p>
+<p><code>控制层</code>(controller是个大杂炖，上面那些层都在这个controller里面彼此交互)</p>
 
-<p>软件框架大多是MVC模式</p>
+<h3>软件框架</h3>
+
+<h5>大多是<code>MVC</code>模式</h5>
 
 <p><img src="/images/mvc.png" alt="" /></p>
 
 <p>缺点：经常会导致C很臃肿，不易管理，所以出现了MVVM。</p>
 
-<p>MVVM就是将业务逻辑从controller里面抽出来单独生成一个类，降低耦合</p>
+<h5>MVVM模式</h5>
+
+<p><code>MVVM</code>就是将业务逻辑从controller里面抽出来单独生成一个类，降低耦合</p>
 
 <p>如果要想把业务逻辑从controller中抽取出来，以实现逻辑层(viewmodel)是逻辑的载体，那么逻辑层至少需要</p>
 
@@ -126,18 +130,21 @@
 
 <p>数据流，逻辑流 这种概念思想很重要,和命令式编程大不一样</p>
 
-<p>由此，Reactive Cocoa 应运而生。</p>
+<p>由此，<code>Reactive Cocoa</code> 应运而生。</p>
 
 <p>Reactive Cocoa 可以承担以下任务</p>
 
-<p>1 数据流统一封装分发
-<img src="/images/mvvm3.png" alt="" /></p>
+<p>1 数据流统一封装分发</p>
 
-<p>2 数据(双向)绑定
-<img src="/images/mvvm1.png" alt="" /></p>
+<p><img src="/images/mvvm3.png" alt="" /></p>
 
-<p>3 动作事件通知
-<img src="/images/mvvm2.png" alt="" /></p>
+<p>2 数据(双向)绑定</p>
+
+<p><img src="/images/mvvm1.png" alt="" /></p>
+
+<p>3 动作事件通知</p>
+
+<p><img src="/images/mvvm2.png" alt="" /></p>
 
 <p>代码实例</p>
 
@@ -328,7 +335,7 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/03/08/ruan-jian-jia-gou-mvvm/">软件设计层次架构MVVM</a>
+        <a href="/blog/2016/03/08/ruan-jian-jia-gou-mvvm/">软件设计层次架构</a>
       </li>
     
       <li class="post">

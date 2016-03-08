@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-03-08T23:57:28+08:00</updated>
+  <updated>2016-03-09T00:06:00+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -14,33 +14,37 @@
 
   
   <entry>
-    <title type="html"><![CDATA[软件设计层次架构MVVM]]></title>
+    <title type="html"><![CDATA[软件设计层次架构]]></title>
     <link href="http://liu3399shuai.github.io/blog/2016/03/08/ruan-jian-jia-gou-mvvm/"/>
     <updated>2016-03-08T18:33:52+08:00</updated>
     <id>http://liu3399shuai.github.io/blog/2016/03/08/ruan-jian-jia-gou-mvvm</id>
-    <content type="html"><![CDATA[<p>软件层次：</p>
+    <content type="html"><![CDATA[<h3>软件层次</h3>
 
-<p>工具层(utility，通用的工具，和具体的业务无关)</p>
+<p><code>工具层</code>(utility，通用的工具，和具体的业务无关)</p>
 
-<p>网络层(负责和server进行交互)</p>
+<p><code>网络层</code>(负责和server进行交互)</p>
 
-<p>数据持久层(本地缓存、数据库)</p>
+<p><code>数据持久层</code>(本地缓存、数据库)</p>
 
-<p>model层(原始数据的载体，比如来自网络或数据库的时间戳，不进行处数据理)</p>
+<p><code>model层</code>(原始数据的类载体，比如来自网络或数据库的时间戳，不进行处数据理)</p>
 
-<p>逻辑层(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层，也可以给一个业务功能多个界面增加一个逻辑层)</p>
+<p><code>逻辑层</code>(viewmodel层，软件业务功能逻辑相关，可以给每个界面增加个逻辑层，也可以给一个业务功能多个界面增加一个逻辑层)</p>
 
-<p>UI层(显示的view)</p>
+<p><code>UI层</code>(显示的view)</p>
 
-<p>控制层(controller是个大杂炖，上面那些层都在这个controller里面彼此交互)</p>
+<p><code>控制层</code>(controller是个大杂炖，上面那些层都在这个controller里面彼此交互)</p>
 
-<p>软件框架大多是MVC模式</p>
+<h3>软件框架</h3>
+
+<h5>大多是<code>MVC</code>模式</h5>
 
 <p><img src="http://liu3399shuai.github.io/images/mvc.png" alt="" /></p>
 
 <p>缺点：经常会导致C很臃肿，不易管理，所以出现了MVVM。</p>
 
-<p>MVVM就是将业务逻辑从controller里面抽出来单独生成一个类，降低耦合</p>
+<h5>MVVM模式</h5>
+
+<p><code>MVVM</code>就是将业务逻辑从controller里面抽出来单独生成一个类，降低耦合</p>
 
 <p>如果要想把业务逻辑从controller中抽取出来，以实现逻辑层(viewmodel)是逻辑的载体，那么逻辑层至少需要</p>
 
@@ -60,18 +64,21 @@
 
 <p>数据流，逻辑流 这种概念思想很重要,和命令式编程大不一样</p>
 
-<p>由此，Reactive Cocoa 应运而生。</p>
+<p>由此，<code>Reactive Cocoa</code> 应运而生。</p>
 
 <p>Reactive Cocoa 可以承担以下任务</p>
 
-<p>1 数据流统一封装分发
-<img src="http://liu3399shuai.github.io/images/mvvm3.png" alt="" /></p>
+<p>1 数据流统一封装分发</p>
 
-<p>2 数据(双向)绑定
-<img src="http://liu3399shuai.github.io/images/mvvm1.png" alt="" /></p>
+<p><img src="http://liu3399shuai.github.io/images/mvvm3.png" alt="" /></p>
 
-<p>3 动作事件通知
-<img src="http://liu3399shuai.github.io/images/mvvm2.png" alt="" /></p>
+<p>2 数据(双向)绑定</p>
+
+<p><img src="http://liu3399shuai.github.io/images/mvvm1.png" alt="" /></p>
+
+<p>3 动作事件通知</p>
+
+<p><img src="http://liu3399shuai.github.io/images/mvvm2.png" alt="" /></p>
 
 <p>代码实例</p>
 
@@ -765,7 +772,7 @@ class_getClassMethod 类的方法 +加方法</p>
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#58;&#108;&#105;&#117;&#x33;&#51;&#x39;&#57;&#115;&#104;&#x75;&#97;&#x69;&#x40;&#49;&#x36;&#51;&#46;&#x63;&#x6f;&#109;">&#x6c;&#105;&#x75;&#x33;&#x33;&#x39;&#57;&#x73;&#104;&#117;&#97;&#105;&#64;&#49;&#x36;&#51;&#46;&#x63;&#111;&#109;</a></p>
+<p>联系我 <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#111;&#x3a;&#x6c;&#x69;&#117;&#x33;&#51;&#x39;&#x39;&#x73;&#104;&#x75;&#97;&#105;&#x40;&#49;&#x36;&#x33;&#46;&#99;&#x6f;&#109;">&#108;&#105;&#x75;&#51;&#x33;&#x39;&#x39;&#115;&#x68;&#x75;&#x61;&#105;&#64;&#x31;&#54;&#51;&#x2e;&#x63;&#111;&#x6d;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 ]]></content>
