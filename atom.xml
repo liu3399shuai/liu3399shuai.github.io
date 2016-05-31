@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-05-31T15:37:54+08:00</updated>
+  <updated>2016-05-31T16:14:58+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -18,9 +18,7 @@
     <link href="http://liu3399shuai.github.io/blog/2016/05/31/shi-jian-ri-li-kong-jian/"/>
     <updated>2016-05-31T13:00:03+08:00</updated>
     <id>http://liu3399shuai.github.io/blog/2016/05/31/shi-jian-ri-li-kong-jian</id>
-    <content type="html"><![CDATA[<h1>日历控件</h1>
-
-<h2>日历时间生成</h2>
+    <content type="html"><![CDATA[<h2>日历时间生成</h2>
 
 <p>关于日历就看这一个类<code>NSCalendar</code>就可以，结合日期拆解析类<code>NSDateComponents</code>就可以搞定日历相关各种奇葩问题了</p>
 
@@ -282,7 +280,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h2>日历时间显示</h2>
+<h2>日历时间UI相关</h2>
 
 <p>显示日历大都是UICollectionView 这个很简单，想怎么显示直接写cell就行。</p>
 
@@ -1285,7 +1283,7 @@ class_getClassMethod 类的方法 +加方法</p>
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#109;&#97;&#105;&#x6c;&#x74;&#x6f;&#58;&#108;&#105;&#x75;&#x33;&#x33;&#x39;&#57;&#115;&#104;&#x75;&#x61;&#x69;&#64;&#49;&#54;&#x33;&#46;&#99;&#x6f;&#x6d;">&#x6c;&#x69;&#x75;&#x33;&#x33;&#x39;&#x39;&#115;&#104;&#117;&#97;&#105;&#64;&#x31;&#x36;&#x33;&#46;&#x63;&#111;&#x6d;</a></p>
+<p>联系我 <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#108;&#105;&#x75;&#51;&#x33;&#57;&#57;&#115;&#x68;&#x75;&#97;&#105;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#108;&#x69;&#x75;&#51;&#51;&#57;&#x39;&#x73;&#x68;&#117;&#97;&#x69;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 ]]></content>
