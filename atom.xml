@@ -4,7 +4,7 @@
   <title><![CDATA[刘帅的技术博客]]></title>
   <link href="http://liu3399shuai.github.io/atom.xml" rel="self"/>
   <link href="http://liu3399shuai.github.io/"/>
-  <updated>2016-05-31T16:14:58+08:00</updated>
+  <updated>2016-06-07T19:20:34+08:00</updated>
   <id>http://liu3399shuai.github.io/</id>
   <author>
     <name><![CDATA[刘帅]]></name>
@@ -12,6 +12,258 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[自定义键盘和输入框]]></title>
+    <link href="http://liu3399shuai.github.io/blog/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/"/>
+    <updated>2016-06-07T18:02:04+08:00</updated>
+    <id>http://liu3399shuai.github.io/blog/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang</id>
+    <content type="html"><![CDATA[<h5>为什么点击UITextField键盘就抬起来了呢？</h5>
+
+<h5>为什么点击键盘里的字符，会显示在UITextField输入框里面呢？</h5>
+
+<h5>如何自定义点击UITextField后抬起来的键盘,并将自定义键盘里面的被点击字符传入UITextField</h5>
+
+<h5>如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面</h5>
+
+<h3>1 UITextField 继承自 UIResponder，UIResponder可以响应用户的交互</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface UIResponder
+</span><span class='line'>
+</span><span class='line'>- (BOOL)becomeFirstResponder;
+</span><span class='line'>
+</span><span class='line'>- (BOOL)resignFirstResponder;
+</span><span class='line'>
+</span><span class='line'>- (BOOL)isFirstResponder;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>2 可以响应用户事件了，这还不够，UIButton也可以，点击它怎么不抬起键盘。UITextField有个属性 inputView，看解释</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>// Presented when object becomes first responder.  If set to nil, reverts to following responder chain.  If
+</span><span class='line'>// set while first responder, will not take effect until reloadInputViews is called.
+</span><span class='line'>@property (nullable, readwrite, strong) UIView *inputView;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也就是说，如果UITextField的这个属性是个nil，那点击它后，键盘也抬不起来了，也就是说如果重新给inputView赋值一个自定义的view，那点击UITextField后，这个自定义的view就会被抬起来了，这就是所谓的自定义的键盘，其实就是个view</p>
+
+<h3>3 点击UITextField后，键盘抬起来了，可是点击键盘里面的字符怎么会显示到UITextField里面的呢？</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@interface UITextField : UIControl &lt;UITextInput, NSCoding&gt; 
+</span><span class='line'>
+</span><span class='line'>@protocol UITextInput &lt;UIKeyInput&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>是因为UITextField遵守了UITextInput这个协议。而UITextInput又遵守了UIKeyInput这个协议</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@protocol UIKeyInput &lt;UITextInputTraits&gt;
+</span><span class='line'>
+</span><span class='line'>- (BOOL)hasText;
+</span><span class='line'>- (void)insertText:(NSString *)text;
+</span><span class='line'>- (void)deleteBackward;
+</span><span class='line'>
+</span><span class='line'>@end</span></code></pre></td></tr></table></div></figure>
+
+
+<p>UIKeyInput这个协议里面的这三个方法，就是实现键盘里被点击字符在UITextField输入框里面显示的方法，也就是说，可以手动调用这三个方法，来实现自定义键盘的功能，如下</p>
+
+<p>在自定义的键盘(就是一个view)上面放置很多btn，btn事件点击如下，这样没点击一个btn，UITextField里面就会做出相应的字符显示或删除</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)btnClick:(UIButton *)btn
+</span><span class='line'>{
+</span><span class='line'>    NSInteger tag = btn.tag;
+</span><span class='line'>    
+</span><span class='line'>    if (10 &lt;= tag && tag &lt;= 19) {
+</span><span class='line'>        [_textField insertText:[NSString stringWithFormat:@"%ld",tag - 10]];
+</span><span class='line'>    }else if (tag == 20){
+</span><span class='line'>        [_textField insertText:@"00"];
+</span><span class='line'>    }else if (tag == 21){
+</span><span class='line'>        [_textField insertText:@"."];
+</span><span class='line'>    }else if (tag == 100){
+</span><span class='line'>        [_textField deleteBackward];
+</span><span class='line'>    }else if (tag == 200){
+</span><span class='line'>        [_textField resignFirstResponder];
+</span><span class='line'>    }else if (tag == 300){
+</span><span class='line'>        [_textField resignFirstResponder];
+</span><span class='line'>    }else{
+</span><span class='line'>        [_textField resignFirstResponder];
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    [[UIDevice currentDevice] playInputClick];
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4 刚才说的点击UITextField键盘抬起是因为有个inputView属性，那一个自定义的view，没有这个属性，点击后怎么把键盘抬起来？</h2>
+
+<p>这个也可以，没有inputView，但可以遵守这个协议<code>&lt;UIKeyInput&gt;</code> 也可以让键盘抬起来</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>
+</span><span class='line'>@interface PswTextView : UIView &lt;UITextInput&gt; 
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>点击PswTextView后，它becomeFirstResponder，键盘被顺利抬起,可是如何捕获键盘里面的被点击字符呢？如何显示呢？</p>
+
+<p>重写协议里面的以下方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>_textStore 是PswTextView里面的全局可变字符串变量，用来存储当前键盘里面记录的点击字符
+</span><span class='line'>
+</span><span class='line'>- (void)deleteBackward
+</span><span class='line'>{
+</span><span class='line'>    if (_textStore.length == 0) {
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    NSRange theRange = NSMakeRange(_textStore.length - 1, 1);
+</span><span class='line'>    [_textStore deleteCharactersInRange:theRange];
+</span><span class='line'>    
+</span><span class='line'>    [self setNeedsDisplay];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (void)insertText:(NSString *)text
+</span><span class='line'>{
+</span><span class='line'>    if (_textStore.length == 6) {
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    if (![text isPureNumber]) {
+</span><span class='line'>        return;
+</span><span class='line'>    }
+</span><span class='line'>    
+</span><span class='line'>    [_textStore appendString:text];
+</span><span class='line'>    
+</span><span class='line'>    [self setNeedsDisplay];
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)hasText
+</span><span class='line'>{
+</span><span class='line'>    return (_textStore.length &gt; 0);
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>重写UIResponder里面的方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>- (BOOL)canBecomeFirstResponder
+</span><span class='line'>{
+</span><span class='line'>    return YES;
+</span><span class='line'>}
+</span><span class='line'>
+</span><span class='line'>- (BOOL)becomeFirstResponder
+</span><span class='line'>{
+</span><span class='line'>    [_textStore setString:@""];
+</span><span class='line'>    [self setNeedsDisplay];
+</span><span class='line'>    
+</span><span class='line'>    return [super becomeFirstResponder];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这个view上面显示的键盘被点击字符的话，就用到<code>drawRect</code>方法了，在键盘里面的字符变化时候调用一句<code>setNeedsDisplay</code></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-(void)drawRect:(CGRect)rect
+</span><span class='line'>{    
+</span><span class='line'>    [_textStore drawInRect:rect withAttributes:@{NSForegroundColorAttributeName:self.color,NSFontAttributeName:self.font}];
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>自定义键盘、自定义输入框详细代码 请看<a href="https://github.com/liu3399shuai/keyboard-Input">github</a></h2>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[时间日历控件]]></title>
@@ -1283,7 +1535,7 @@ class_getClassMethod 类的方法 +加方法</p>
 
 <p>一切正常的话，你的<strong>第一篇</strong>日志就发布出来了，<em>恭喜</em>你正式开通了基于 <code>Octopress</code> 的独立 <a href="https://github.com">博客</a>。</p>
 
-<p>联系我 <a href="&#x6d;&#x61;&#x69;&#x6c;&#116;&#111;&#x3a;&#108;&#105;&#x75;&#51;&#x33;&#57;&#57;&#115;&#x68;&#x75;&#97;&#105;&#x40;&#49;&#54;&#x33;&#46;&#x63;&#x6f;&#x6d;">&#108;&#x69;&#x75;&#51;&#51;&#57;&#x39;&#x73;&#x68;&#117;&#97;&#x69;&#64;&#49;&#54;&#51;&#46;&#99;&#111;&#x6d;</a></p>
+<p>联系我 <a href="&#109;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#108;&#105;&#117;&#x33;&#51;&#57;&#x39;&#x73;&#104;&#x75;&#97;&#x69;&#x40;&#49;&#54;&#x33;&#x2e;&#x63;&#111;&#x6d;">&#108;&#x69;&#117;&#51;&#51;&#x39;&#57;&#x73;&#104;&#x75;&#x61;&#x69;&#64;&#x31;&#54;&#51;&#x2e;&#99;&#x6f;&#x6d;</a></p>
 
 <p>或者我的网站 <a href="https://github.com">https://github.com</a></p>
 ]]></content>
