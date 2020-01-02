@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: 
-
-Sitemap: http://liu3399shuai.github.io/sitemap.xml 

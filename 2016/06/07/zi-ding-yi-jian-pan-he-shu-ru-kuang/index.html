@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>自定义键盘和输入框 | 刘帅的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么点击UITextField键盘就抬起来了呢？为什么点击键盘里的字符，会显示在UITextField输入框里面呢？如何自定义点击UITextField后抬起来的键盘,并将自定义键盘里面的被点击字符传入UITextField如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面1 UITextField 继承自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义键盘和输入框">
+<meta property="og:url" content="http://yoursite.com/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/index.html">
+<meta property="og:site_name" content="刘帅的技术博客">
+<meta property="og:description" content="为什么点击UITextField键盘就抬起来了呢？为什么点击键盘里的字符，会显示在UITextField输入框里面呢？如何自定义点击UITextField后抬起来的键盘,并将自定义键盘里面的被点击字符传入UITextField如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面1 UITextField 继承自">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-06-07T10:02:04.000Z">
+<meta property="article:modified_time" content="2016-06-07T11:30:47.000Z">
+<meta property="article:author" content="刘帅">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="刘帅的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">刘帅的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-zi-ding-yi-jian-pan-he-shu-ru-kuang" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/" class="article-date">
+  <time datetime="2016-06-07T10:02:04.000Z" itemprop="datePublished">2016-06-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义键盘和输入框
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h5 id="为什么点击UITextField键盘就抬起来了呢？"><a href="#为什么点击UITextField键盘就抬起来了呢？" class="headerlink" title="为什么点击UITextField键盘就抬起来了呢？"></a>为什么点击UITextField键盘就抬起来了呢？</h5><h5 id="为什么点击键盘里的字符，会显示在UITextField输入框里面呢？"><a href="#为什么点击键盘里的字符，会显示在UITextField输入框里面呢？" class="headerlink" title="为什么点击键盘里的字符，会显示在UITextField输入框里面呢？"></a>为什么点击键盘里的字符，会显示在UITextField输入框里面呢？</h5><h5 id="如何自定义点击UITextField后抬起来的键盘-并将自定义键盘里面的被点击字符传入UITextField"><a href="#如何自定义点击UITextField后抬起来的键盘-并将自定义键盘里面的被点击字符传入UITextField" class="headerlink" title="如何自定义点击UITextField后抬起来的键盘,并将自定义键盘里面的被点击字符传入UITextField"></a>如何自定义点击UITextField后抬起来的键盘,并将自定义键盘里面的被点击字符传入UITextField</h5><h5 id="如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面"><a href="#如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面" class="headerlink" title="如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面"></a>如何自定义一个view，来模拟UITextField的功能？就是说点击这个view，键盘抬起，点击键盘里面的字符，会显示到这个view上面</h5><h3 id="1-UITextField-继承自-UIResponder，UIResponder可以响应用户的交互"><a href="#1-UITextField-继承自-UIResponder，UIResponder可以响应用户的交互" class="headerlink" title="1 UITextField 继承自 UIResponder，UIResponder可以响应用户的交互"></a>1 UITextField 继承自 UIResponder，UIResponder可以响应用户的交互</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@interface UIResponder</span><br><span class="line"></span><br><span class="line">- (BOOL)becomeFirstResponder;</span><br><span class="line"></span><br><span class="line">- (BOOL)resignFirstResponder;</span><br><span class="line"></span><br><span class="line">- (BOOL)isFirstResponder;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="2-可以响应用户事件了，这还不够，UIButton也可以，点击它怎么不抬起键盘。UITextField有个属性-inputView，看解释"><a href="#2-可以响应用户事件了，这还不够，UIButton也可以，点击它怎么不抬起键盘。UITextField有个属性-inputView，看解释" class="headerlink" title="2 可以响应用户事件了，这还不够，UIButton也可以，点击它怎么不抬起键盘。UITextField有个属性 inputView，看解释"></a>2 可以响应用户事件了，这还不够，UIButton也可以，点击它怎么不抬起键盘。UITextField有个属性 inputView，看解释</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; Presented when object becomes first responder.  If set to nil, reverts to following responder chain.  If</span><br><span class="line">&#x2F;&#x2F; set while first responder, will not take effect until reloadInputViews is called.</span><br><span class="line">@property (nullable, readwrite, strong) UIView *inputView;</span><br></pre></td></tr></table></figure>
+
+<p>也就是说，如果UITextField的这个属性是个nil，那点击它后，键盘也抬不起来了，也就是说如果重新给inputView赋值一个自定义的view，那点击UITextField后，这个自定义的view就会被抬起来了，这就是所谓的自定义的键盘，其实就是个view</p>
+<h3 id="3-点击UITextField后，键盘抬起来了，可是点击键盘里面的字符怎么会显示到UITextField里面的呢？"><a href="#3-点击UITextField后，键盘抬起来了，可是点击键盘里面的字符怎么会显示到UITextField里面的呢？" class="headerlink" title="3 点击UITextField后，键盘抬起来了，可是点击键盘里面的字符怎么会显示到UITextField里面的呢？"></a>3 点击UITextField后，键盘抬起来了，可是点击键盘里面的字符怎么会显示到UITextField里面的呢？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface UITextField : UIControl &lt;UITextInput, NSCoding&gt; </span><br><span class="line"></span><br><span class="line">@protocol UITextInput &lt;UIKeyInput&gt;</span><br></pre></td></tr></table></figure>
+
+<p>是因为UITextField遵守了UITextInput这个协议。而UITextInput又遵守了UIKeyInput这个协议</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@protocol UIKeyInput &lt;UITextInputTraits&gt;</span><br><span class="line"></span><br><span class="line">- (BOOL)hasText;</span><br><span class="line">- (void)insertText:(NSString *)text;</span><br><span class="line">- (void)deleteBackward;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+<p>UIKeyInput这个协议里面的这三个方法，就是实现键盘里被点击字符在UITextField输入框里面显示的方法，也就是说，可以手动调用这三个方法，来实现自定义键盘的功能，如下</p>
+<p>在自定义的键盘(就是一个view)上面放置很多btn，btn事件点击如下，这样没点击一个btn，UITextField里面就会做出相应的字符显示或删除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">-(void)btnClick:(UIButton *)btn</span><br><span class="line">&#123;</span><br><span class="line">    NSInteger tag &#x3D; btn.tag;</span><br><span class="line">    </span><br><span class="line">    if (10 &lt;&#x3D; tag &amp;&amp; tag &lt;&#x3D; 19) &#123;</span><br><span class="line">        [_textField insertText:[NSString stringWithFormat:@&quot;%ld&quot;,tag - 10]];</span><br><span class="line">    &#125;else if (tag &#x3D;&#x3D; 20)&#123;</span><br><span class="line">        [_textField insertText:@&quot;00&quot;];</span><br><span class="line">    &#125;else if (tag &#x3D;&#x3D; 21)&#123;</span><br><span class="line">        [_textField insertText:@&quot;.&quot;];</span><br><span class="line">    &#125;else if (tag &#x3D;&#x3D; 100)&#123;</span><br><span class="line">        [_textField deleteBackward];</span><br><span class="line">    &#125;else if (tag &#x3D;&#x3D; 200)&#123;</span><br><span class="line">        [_textField resignFirstResponder];</span><br><span class="line">    &#125;else if (tag &#x3D;&#x3D; 300)&#123;</span><br><span class="line">        [_textField resignFirstResponder];</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        [_textField resignFirstResponder];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [[UIDevice currentDevice] playInputClick];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="4-刚才说的点击UITextField键盘抬起是因为有个inputView属性，那一个自定义的view，没有这个属性，点击后怎么把键盘抬起来？"><a href="#4-刚才说的点击UITextField键盘抬起是因为有个inputView属性，那一个自定义的view，没有这个属性，点击后怎么把键盘抬起来？" class="headerlink" title="4 刚才说的点击UITextField键盘抬起是因为有个inputView属性，那一个自定义的view，没有这个属性，点击后怎么把键盘抬起来？"></a>4 刚才说的点击UITextField键盘抬起是因为有个inputView属性，那一个自定义的view，没有这个属性，点击后怎么把键盘抬起来？</h2><p>这个也可以，没有inputView，但可以遵守这个协议<code>&lt;UIKeyInput&gt;</code> 也可以让键盘抬起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@interface PswTextView : UIView &lt;UITextInput&gt;</span><br></pre></td></tr></table></figure>
+
+<p>点击PswTextView后，它becomeFirstResponder，键盘被顺利抬起,可是如何捕获键盘里面的被点击字符呢？如何显示呢？</p>
+<p>重写协议里面的以下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">_textStore 是PswTextView里面的全局可变字符串变量，用来存储当前键盘里面记录的点击字符</span><br><span class="line"></span><br><span class="line">- (void)deleteBackward</span><br><span class="line">&#123;</span><br><span class="line">    if (_textStore.length &#x3D;&#x3D; 0) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    NSRange theRange &#x3D; NSMakeRange(_textStore.length - 1, 1);</span><br><span class="line">    [_textStore deleteCharactersInRange:theRange];</span><br><span class="line">    </span><br><span class="line">    [self setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)insertText:(NSString *)text</span><br><span class="line">&#123;</span><br><span class="line">    if (_textStore.length &#x3D;&#x3D; 6) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    if (![text isPureNumber]) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    [_textStore appendString:text];</span><br><span class="line">    </span><br><span class="line">    [self setNeedsDisplay];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)hasText</span><br><span class="line">&#123;</span><br><span class="line">    return (_textStore.length &gt; 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重写UIResponder里面的方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (BOOL)canBecomeFirstResponder</span><br><span class="line">&#123;</span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)becomeFirstResponder</span><br><span class="line">&#123;</span><br><span class="line">    [_textStore setString:@&quot;&quot;];</span><br><span class="line">    [self setNeedsDisplay];</span><br><span class="line">    </span><br><span class="line">    return [super becomeFirstResponder];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个view上面显示的键盘被点击字符的话，就用到<code>drawRect</code>方法了，在键盘里面的字符变化时候调用一句<code>setNeedsDisplay</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-(void)drawRect:(CGRect)rect</span><br><span class="line">&#123;    </span><br><span class="line">    [_textStore drawInRect:rect withAttributes:@&#123;NSForegroundColorAttributeName:self.color,NSFontAttributeName:self.font&#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="自定义键盘、自定义输入框详细代码-请看github"><a href="#自定义键盘、自定义输入框详细代码-请看github" class="headerlink" title="自定义键盘、自定义输入框详细代码 请看github"></a>自定义键盘、自定义输入框详细代码 请看<a href="https://github.com/liu3399shuai/keyboard-Input" target="_blank" rel="noopener">github</a></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/" data-id="ck4wbr1gt000cpys614s7ego7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/31/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/31/shi-jian-ri-li-kong-jian/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">时间日历控件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/31/first-blog-test/">first blog test</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/">自定义键盘和输入框</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/shi-jian-ri-li-kong-jian/">时间日历控件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/11/ji-lu-yi-xie-hao-de-wang-zhan-huo-bo-ke/">记录一些好的网站或博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 刘帅<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

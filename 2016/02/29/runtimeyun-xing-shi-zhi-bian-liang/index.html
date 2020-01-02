@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>runtime运行时之变量(variable) | 刘帅的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="runtime使用之variable  property  https:&#x2F;&#x2F;developer.apple.com&#x2F;library&#x2F;mac&#x2F;documentation&#x2F;Cocoa&#x2F;Conceptual&#x2F;ObjCRuntimeGuide&#x2F;Articles&#x2F;ocrtPropertyIntrospection.html#&#x2F;&#x2F;apple_ref&#x2F;doc&#x2F;uid&#x2F;TP40008048-CH101 每一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="runtime运行时之变量(variable)">
+<meta property="og:url" content="http://yoursite.com/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/index.html">
+<meta property="og:site_name" content="刘帅的技术博客">
+<meta property="og:description" content="runtime使用之variable  property  https:&#x2F;&#x2F;developer.apple.com&#x2F;library&#x2F;mac&#x2F;documentation&#x2F;Cocoa&#x2F;Conceptual&#x2F;ObjCRuntimeGuide&#x2F;Articles&#x2F;ocrtPropertyIntrospection.html#&#x2F;&#x2F;apple_ref&#x2F;doc&#x2F;uid&#x2F;TP40008048-CH101 每一个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/images/runtime_variable1.png">
+<meta property="og:image" content="http://yoursite.com/images/runtime_variable2.png">
+<meta property="og:image" content="http://yoursite.com/images/runtime_variable3.png">
+<meta property="og:image" content="http://yoursite.com/images/runtime_variable4.png">
+<meta property="og:image" content="http://yoursite.com/images/runtime_variable5.png">
+<meta property="article:published_time" content="2016-02-29T10:55:56.000Z">
+<meta property="article:modified_time" content="2016-03-31T04:28:50.000Z">
+<meta property="article:author" content="刘帅">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/runtime_variable1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="刘帅的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">刘帅的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-runtimeyun-xing-shi-zhi-bian-liang" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/" class="article-date">
+  <time datetime="2016-02-29T10:55:56.000Z" itemprop="datePublished">2016-02-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      runtime运行时之变量(variable)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="runtime使用之variable"><a href="#runtime使用之variable" class="headerlink" title="runtime使用之variable"></a>runtime使用之variable</h3><p><img src="/images/runtime_variable1.png" alt=""></p>
+<p><img src="/images/runtime_variable2.png" alt=""></p>
+<p>property</p>
+<p><img src="/images/runtime_variable3.png" alt=""></p>
+<p><a href="https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101" target="_blank" rel="noopener">https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtPropertyIntrospection.html#//apple_ref/doc/uid/TP40008048-CH101</a></p>
+<p>每一个  objc_property_t指向的结构体里面 都包含一个 attributions的成员变量，<br>比如  @property (nonatomic,weak) IBOutlet UITextField<br>通过 property_getAttributes 获取到，它的attributions是  T@”UITextField”,W,N,V_tf<br>而通过 property_copyAttributeList 获取到以下图片</p>
+<p><img src="/images/runtime_variable4.png" alt=""></p>
+<p><img src="/images/runtime_variable5.png" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/02/29/runtimeyun-xing-shi-zhi-bian-liang/" data-id="ck4wbr1gp0007pys67k4k3w5n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/02/29/runtimeyun-xing-shi-zhi-fang-fa-method/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          runtime运行时之方法method
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/02/29/runtimeyun-xing-shi-zhi-class/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">runtime运行时之类(class)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/31/first-blog-test/">first blog test</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/">自定义键盘和输入框</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/shi-jian-ri-li-kong-jian/">时间日历控件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/11/ji-lu-yi-xie-hao-de-wang-zhan-huo-bo-ke/">记录一些好的网站或博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 刘帅<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

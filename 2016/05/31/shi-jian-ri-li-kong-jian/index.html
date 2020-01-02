@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>时间日历控件 | 刘帅的技术博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="日历时间生成关于日历就看这一个类NSCalendar就可以，结合日期拆解析类NSDateComponents就可以搞定日历相关各种奇葩问题了 1234567891011121314151617181920212223242526272829&#x2F;** *  获取当前日期是周几 * *  @return 输出结果是星期几的字符串。 *&#x2F;-(NSString *)weekday&amp;#12">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时间日历控件">
+<meta property="og:url" content="http://yoursite.com/2016/05/31/shi-jian-ri-li-kong-jian/index.html">
+<meta property="og:site_name" content="刘帅的技术博客">
+<meta property="og:description" content="日历时间生成关于日历就看这一个类NSCalendar就可以，结合日期拆解析类NSDateComponents就可以搞定日历相关各种奇葩问题了 1234567891011121314151617181920212223242526272829&#x2F;** *  获取当前日期是周几 * *  @return 输出结果是星期几的字符串。 *&#x2F;-(NSString *)weekday&amp;#12">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-05-31T05:00:03.000Z">
+<meta property="article:modified_time" content="2016-05-31T08:22:34.000Z">
+<meta property="article:author" content="刘帅">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="刘帅的技术博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">刘帅的技术博客</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-shi-jian-ri-li-kong-jian" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/05/31/shi-jian-ri-li-kong-jian/" class="article-date">
+  <time datetime="2016-05-31T05:00:03.000Z" itemprop="datePublished">2016-05-31</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      时间日历控件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="日历时间生成"><a href="#日历时间生成" class="headerlink" title="日历时间生成"></a>日历时间生成</h2><p>关于日历就看这一个类<code>NSCalendar</code>就可以，结合日期拆解析类<code>NSDateComponents</code>就可以搞定日历相关各种奇葩问题了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> *  获取当前日期是周几</span><br><span class="line"> *</span><br><span class="line"> *  @return 输出结果是星期几的字符串。</span><br><span class="line"> *&#x2F;</span><br><span class="line">-(NSString *)weekday</span><br><span class="line">&#123;</span><br><span class="line">    NSDateComponents *comps &#x3D; [calendar components:NSCalendarUnitWeekday fromDate:self];</span><br><span class="line">    </span><br><span class="line">    NSArray *weekdays &#x3D; [NSArray arrayWithObjects: [NSNull null], @&quot;0&quot;, @&quot;1&quot;, @&quot;2&quot;, @&quot;3&quot;, @&quot;4&quot;, @&quot;5&quot;, @&quot;6&quot;, nil];</span><br><span class="line">    </span><br><span class="line">    return [weekdays objectAtIndex:comps.weekday];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(NSString *)weekdayString</span><br><span class="line">&#123;</span><br><span class="line">    NSString *week &#x3D; [self weekday];</span><br><span class="line">    </span><br><span class="line">    NSDictionary *map &#x3D; @&#123;@&quot;0&quot; : @&quot;周日&quot;,</span><br><span class="line">                          @&quot;1&quot; : @&quot;周一&quot;,</span><br><span class="line">                          @&quot;2&quot; : @&quot;周二&quot;,</span><br><span class="line">                          @&quot;3&quot; : @&quot;周三&quot;,</span><br><span class="line">                          @&quot;4&quot; : @&quot;周四&quot;,</span><br><span class="line">                          @&quot;5&quot; : @&quot;周五&quot;,</span><br><span class="line">                          @&quot;6&quot; : @&quot;周六&quot;,</span><br><span class="line">                          &#125;;</span><br><span class="line">    </span><br><span class="line">    return map[week];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *  获取当前日期所在月的第一天是周几</span><br><span class="line"> *</span><br><span class="line"> *  @return 输出结果是星期几的字符串。</span><br><span class="line"> *&#x2F;</span><br><span class="line">-(NSString *)firstWeekdayInCurrentMonth</span><br><span class="line">&#123;</span><br><span class="line">    double interval &#x3D; 0;</span><br><span class="line">    NSDate *beginDate &#x3D; nil;</span><br><span class="line">    NSDate *endDate &#x3D; nil;</span><br><span class="line">    NSCalendar *calendar &#x3D; [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];</span><br><span class="line">    calendar.timeZone &#x3D; [NSTimeZone timeZoneWithName:@&quot;Asia&#x2F;Shanghai&quot;];;</span><br><span class="line">    </span><br><span class="line">    [calendar setFirstWeekday:2];&#x2F;&#x2F;设定周一为周首日</span><br><span class="line">    BOOL ok &#x3D; [calendar rangeOfUnit:NSCalendarUnitMonth startDate:&amp;beginDate interval:&amp;interval forDate:self];</span><br><span class="line">    &#x2F;&#x2F;分别修改为 NSDayCalendarUnit NSWeekCalendarUnit NSYearCalendarUnit</span><br><span class="line">    if (ok) &#123;</span><br><span class="line">        endDate &#x3D; [beginDate dateByAddingTimeInterval:interval-1];</span><br><span class="line">    &#125;else &#123;</span><br><span class="line">        return @&quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return [beginDate weekday];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *  获取当前日期所在月有多少天</span><br><span class="line"> *</span><br><span class="line"> *  @return 天数</span><br><span class="line"> *&#x2F;</span><br><span class="line">-(NSInteger)daysInCurrentMonth</span><br><span class="line">&#123;</span><br><span class="line">    NSRange range &#x3D;[calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self];</span><br><span class="line">    </span><br><span class="line">    return range.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *  获取当前日期所在月的下offset个月</span><br><span class="line"> *</span><br><span class="line"> *  @return 获得时间</span><br><span class="line"> *&#x2F;</span><br><span class="line">-(NSDate *)dateOffsetMonth:(NSInteger)offset</span><br><span class="line">&#123;</span><br><span class="line">    NSDateComponents *comps &#x3D; [[NSDateComponents alloc] init];</span><br><span class="line">    comps.month &#x3D; offset;</span><br><span class="line">    </span><br><span class="line">    return [calendar dateByAddingComponents:comps toDate:self options:0];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line"> *  获取当前日期的下offset个日期</span><br><span class="line"> *</span><br><span class="line"> *  @return 获得时间</span><br><span class="line"> *&#x2F;</span><br><span class="line">-(NSDate *)dateOffsetDay:(NSInteger)offset</span><br><span class="line">&#123;</span><br><span class="line">    NSDateComponents *comps &#x3D; [[NSDateComponents alloc] init];</span><br><span class="line">    comps.day &#x3D; offset;</span><br><span class="line">    </span><br><span class="line">    return [calendar dateByAddingComponents:comps toDate:self options:0];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">+(NSDate *)dateFromSelectIndex:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    NSDate *date &#x3D; [[NSDate date] dateOffsetMonth:indexPath.section];</span><br><span class="line">    </span><br><span class="line">    NSInteger day &#x3D; indexPath.row - [date firstWeekdayInCurrentMonth].integerValue + 1;</span><br><span class="line">    </span><br><span class="line">    NSDateComponents *comp &#x3D; [[NSDateComponents alloc] init];</span><br><span class="line">    comp.year &#x3D; date.components.year;</span><br><span class="line">    comp.month &#x3D; date.components.month;</span><br><span class="line">    comp.day &#x3D; day;</span><br><span class="line">    </span><br><span class="line">    return [calendar dateFromComponents:comp];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F; 上面的反推 monthOffset 要注意，年末最后一天 和 下一年的一月的处理，所以通过判断若两者月相等section就等于0，不等的话，有可能是大于，有可能是小于(比如当前月2016-12，下个月2017-01)</span><br><span class="line">    NSInteger row &#x3D; self.components.day-1+[self firstWeekdayInCurrentMonth].integerValue;</span><br><span class="line">    NSInteger monthOffset &#x3D; (self.components.month &#x3D;&#x3D; [NSDate date].components.month) ? 0 : 1;</span><br><span class="line">    </span><br><span class="line">    return [NSIndexPath indexPathForRow:row inSection:monthOffset];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="日历时间UI相关"><a href="#日历时间UI相关" class="headerlink" title="日历时间UI相关"></a>日历时间UI相关</h2><p>显示日历大都是UICollectionView 这个很简单，想怎么显示直接写cell就行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark collectionview delegate</span><br><span class="line"></span><br><span class="line">- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView</span><br><span class="line">&#123;</span><br><span class="line">    return 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section &#123;</span><br><span class="line">    </span><br><span class="line">    NSDate *date &#x3D; [[NSDate date] dateOffsetMonth:section];</span><br><span class="line">    </span><br><span class="line">    return [date daysInCurrentMonth] + [date firstWeekdayInCurrentMonth].integerValue;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">    </span><br><span class="line">    DatePickerCell *cell &#x3D;[collectionView dequeueReusableCellWithReuseIdentifier:datePickerCellReuse forIndexPath:indexPath];</span><br><span class="line">    </span><br><span class="line">    [cell updateCellIndex:indexPath select:(_selectIndex &#x3D;&#x3D; indexPath)];</span><br><span class="line">    </span><br><span class="line">    return cell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) &#123;</span><br><span class="line">        </span><br><span class="line">        DatePickerHeaderView * headerCell &#x3D; [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:datePickerHeaderReuse forIndexPath:indexPath];</span><br><span class="line">        </span><br><span class="line">        NSDate *date &#x3D; [[NSDate date] dateOffsetMonth:indexPath.section];</span><br><span class="line">        </span><br><span class="line">        headerCell.tipLab.text &#x3D; [date ymString];</span><br><span class="line">        </span><br><span class="line">        return headerCell;</span><br><span class="line">    &#125;else if ([kind isEqualToString:UICollectionElementKindSectionFooter])&#123;</span><br><span class="line">        DatePickerFooterView * footerCell &#x3D; [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:datePickerFooterReuse forIndexPath:indexPath];</span><br><span class="line">        footerCell.hidden &#x3D; !(indexPath.section &#x3D;&#x3D; 0);</span><br><span class="line">        </span><br><span class="line">        return footerCell;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    </span><br><span class="line">    [collectionView deselectItemAtIndexPath:indexPath animated:YES];</span><br><span class="line">    </span><br><span class="line">    _selectIndex &#x3D; indexPath;</span><br><span class="line">    </span><br><span class="line">    [collectionView reloadData];</span><br><span class="line">    </span><br><span class="line">    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.4*NSEC_PER_SEC), dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        </span><br><span class="line">        if (selectBlock) &#123;</span><br><span class="line">            selectBlock();</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        [self.navigationController popViewControllerAnimated:YES];</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>详细完整工程，请查看 <a href="https://github.com/liu3399shuai/DatePicker" target="_blank" rel="noopener">github</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/05/31/shi-jian-ri-li-kong-jian/" data-id="ck4wbr1gt000bpys6fx9e3nz5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          自定义键盘和输入框
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/11/ji-lu-yi-xie-hao-de-wang-zhan-huo-bo-ke/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">记录一些好的网站或博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">May 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/03/">March 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">February 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/31/first-blog-test/">first blog test</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/31/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/06/07/zi-ding-yi-jian-pan-he-shu-ru-kuang/">自定义键盘和输入框</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/31/shi-jian-ri-li-kong-jian/">时间日历控件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/05/11/ji-lu-yi-xie-hao-de-wang-zhan-huo-bo-ke/">记录一些好的网站或博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 刘帅<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
