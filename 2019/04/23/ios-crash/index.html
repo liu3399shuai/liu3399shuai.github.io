@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Category: iOS账号 | 刘帅的技术博客</title>
+  <title>iOS crash的相对全面的介绍 | 刘帅的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="刘帅的技术博客">
-<meta property="og:url" content="http://yoursite.com/categories/iOS%E8%B4%A6%E5%8F%B7/index.html">
+  <meta name="description" content="本文介绍了iOS中的crash的分类、收集、存储、上传、符号化等流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS crash的相对全面的介绍">
+<meta property="og:url" content="http://yoursite.com/2019/04/23/ios-crash/index.html">
 <meta property="og:site_name" content="刘帅的技术博客">
+<meta property="og:description" content="本文介绍了iOS中的crash的分类、收集、存储、上传、符号化等流程">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-04-23T02:24:00.000Z">
+<meta property="article:modified_time" content="2020-06-22T11:13:06.884Z">
 <meta property="article:author" content="刘帅">
+<meta property="article:tag" content="iOS">
+<meta property="article:tag" content="crash">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="刘帅的技术博客" type="application/atom+xml">
@@ -150,79 +156,223 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ios-crash" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/03/21/apple-register/" class="archive-article-date">
-  	<time datetime="2020-03-21T04:44:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/03/21/apple-register/">Apple账号开通开发者相关</a>
+    <h1 class="article-title" itemprop="name">
+      iOS crash的相对全面的介绍
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2019/04/23/ios-crash/" class="archive-article-date">
+  	<time datetime="2019-04-23T02:24:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-04-23</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文介绍了iOS中的crash的分类、收集、存储、上传、符号化等流程</p>
+<a id="more"></a>
+
+<h2 id="crash分类"><a href="#crash分类" class="headerlink" title="crash分类"></a>crash分类</h2><p>crash分为 math exception 、 signal 、 NSException 三种类型，每一种类型crash都处在不同系统层级上</p>
+<p>内核级异常 math exception<br>系统级异常 signal<br>应用级异常 NSException</p>
+<h2 id="收集crash"><a href="#收集crash" class="headerlink" title="收集crash"></a>收集crash</h2><p>利用 NSSetUncaughtExceptionHandler() NSGetUncaughtExceptionHandler() 方法，去捕获crash信息</p>
+<p>如果多平台收集上传，需要使用NSGetUncaughtExceptionHandler()，并顺序传递exception，如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">static NSUncaughtExceptionHandler *MisCrashManager_PreviousUncaughtExceptionHandler;</span><br><span class="line"></span><br><span class="line">static void MisCrashManager_UncaughtExceptionHandler(NSException *exception)</span><br><span class="line">&#123;</span><br><span class="line">    if(MisCrashManager_PreviousUncaughtExceptionHandler)&#123;</span><br><span class="line">        MisCrashManager_PreviousUncaughtExceptionHandler(exception);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    MisCrashManager_DealException(exception);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">NSSetUncaughtExceptionHandler(&amp;MisCrashManager_UncaughtExceptionHandler);</span><br></pre></td></tr></table></figure>
+
+<p>在收集的过程中，要多参数，多维度的去收集，包括不限于<code>base_address</code>、<code>slide_address</code>、<code>device_id</code>、<code>system_version</code>、<code>device_type</code>、<code>version</code>、<code>project</code>、<code>title</code>、<code>content</code>等参数，当然开发者需要根据本身业务去增加或减少</p>
+<p>常用的收集库<code>PLCrashReporter</code>、<code>CrashKit</code>，可以引入进来</p>
+<h2 id="存储crash"><a href="#存储crash" class="headerlink" title="存储crash"></a>存储crash</h2><p>将上一步收集的crash存储到本地，可以是sql的数据结构，也可以是xml、json等list数据结构，下一次app打开时候，实时的上传到服务器</p>
+<h2 id="上传crash"><a href="#上传crash" class="headerlink" title="上传crash"></a>上传crash</h2><p>在app下次打开时候，实时的上传到服务器</p>
+<h2 id="符号化crash"><a href="#符号化crash" class="headerlink" title="符号化crash"></a>符号化crash</h2><p>导出dsym文件，需要使用atos、symbolicate等操作进行符号化，也可以使用dsymTools(<a href="https://github.com/answer-huang/dSYMTools" target="_blank" rel="noopener">https://github.com/answer-huang/dSYMTools</a>)</p>
+<p>符号化，拿着 符号地址 和 DSYM 进行 还原<br>symbol_address 是 stack_address 减去 slide_address 的结果</p>
+<p>堆栈地址StackAddress - 加载地址LoadAddress = 符号地址SymbolAddress<br>0x1003f34a0 - 0xea4000 = symbol_address<br>atos -o xxx.app.DSYM/Contents/Resources/DWARF/xxx -arch arm64 symbol_address<br>atos -o xxx.app.DSYM/Contents/Resources/DWARF/xxx -arch arm64 0x1003F01FC</p>
+<p>原始采集到的crash信息如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CoreFoundation 0x0000000182eefd5c &lt;redacted&gt; + 52 </span><br><span class="line">UIKit 0x000000018d25bc7c &lt;redacted&gt; + 1352</span><br><span class="line">xxx      0x1003f34a0   xxx + 4142240</span><br></pre></td></tr></table></figure>
+
+<p>符号化后的明文为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">3 UIKit -[UIWebSelectSinglePicker pickerView:didSelectRow:inComponent:] + 72</span><br><span class="line">4 UIKit -[UIPickerTableView _scrollingFinished] + 188</span><br><span class="line">5 xxx -[ServiceViewController tableView:didSelectRowAtIndexPath:] + 460</span><br></pre></td></tr></table></figure>
+
+<h2 id="第三方优质服务商-开源服务"><a href="#第三方优质服务商-开源服务" class="headerlink" title="第三方优质服务商/开源服务"></a>第三方优质服务商/开源服务</h2><p><code>apple crash</code>、<code>google firebase</code>、<code>bugly</code>、<code>sentry开源且支持私有化部署</code></p>
+<h2 id="sentry私有化部署接入记录"><a href="#sentry私有化部署接入记录" class="headerlink" title="sentry私有化部署接入记录"></a>sentry私有化部署接入记录</h2><p>Client Key (dsn) 在sentry后台的<code>Settings -&gt; Projects -&gt; 目标project -&gt; Client Keys -&gt; DSN</code></p>
+<p>Auth Tokens 在sentry后台的<code>Settings -&gt; Account -&gt; Auth Tokens</code>, 使用sentry-cli命令行登录时候需要用到的token</p>
+<p>DSYM 在在sentry后台的<code>Settings -&gt; Projects -&gt; 目标project -&gt; Debug Files</code></p>
+<p>dsym符号表的上传需要使用sentry-cli命令，可在命令行手动上传，可写脚本嵌到工程的 Build Phases里面自动上传</p>
+<p>安装sentry-cli : 命令行 <code>curl -sL https://sentry.io/get-cli/ | bash</code></p>
+<p>登录sentry-cli : <code>sentry-cli —url  http://sentry.xxxdomain.com/  login</code></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Apple</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">续费</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">crash</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/iOS账号//" class="article-tag-list-link color1">iOS账号</a>
+        			<a href="/categories/crash//" class="article-tag-list-link color1">crash</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/categories/上架//" class="article-tag-list-link color3">上架</a>
+        			<a href="/categories/sdk//" class="article-tag-list-link color4">sdk</a>
         		</li>
       		
 		</ul>
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/04/23/ios-crash/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/03/21/apple-register/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Apple账号开通开发者相关
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2018/01/05/hexo-use/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">hexo使用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -245,10 +395,10 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
-		isCategory: true,
+		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
 		root: "/",
