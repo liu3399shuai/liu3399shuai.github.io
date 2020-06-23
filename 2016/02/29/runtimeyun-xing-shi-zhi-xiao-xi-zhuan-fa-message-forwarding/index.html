@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://yoursite.com/images/runtime_forwarding2.png">
 <meta property="og:image" content="http://yoursite.com/images/runtime_forwarding3.png">
 <meta property="article:published_time" content="2016-02-29T10:56:57.000Z">
-<meta property="article:modified_time" content="2020-01-03T06:31:11.076Z">
+<meta property="article:modified_time" content="2020-06-23T06:06:24.920Z">
 <meta property="article:author" content="刘帅">
 <meta property="article:tag" content="消息转发">
 <meta name="twitter:card" content="summary">
@@ -179,21 +179,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>OC是一门动态语言，在调用[self performSelector:@selector(dynamic1)];  编译时候，可以通过，只有在执行时候，系统才会去找dynamic1方法对应的implement，若找不到这个执行，则就进行消息转发机制流程</p>
+        <p>OC是一门动态语言，在调用<code>[self performSelector:@selector(dynamic1)]</code>;  编译时候，可以通过，只有在执行时候，系统才会去找dynamic1方法对应的implement，若找不到这个执行，则就进行消息转发机制流程</p>
 <a id="more"></a>
 
-<h3 id="runtime之消息转发-message-forwarding"><a href="#runtime之消息转发-message-forwarding" class="headerlink" title="runtime之消息转发(message forwarding)"></a>runtime之消息转发(message forwarding)</h3><p>OC是一门动态语言，在调用[self performSelector:@selector(dynamic1)];  编译时候，可以通过，只有在执行时候，系统才会去找dynamic1方法对应的implement，若找不到这个执行，则就进行消息转发机制流程</p>
-<p>[self performSelector:@selector(dynamic1)];  这个invoke编译时候将转换为objc_msgSend()</p>
+<h3 id="runtime之消息转发-message-forwarding"><a href="#runtime之消息转发-message-forwarding" class="headerlink" title="runtime之消息转发(message forwarding)"></a>runtime之消息转发(message forwarding)</h3><p>OC是一门动态语言，在调用<code>[self performSelector:@selector(dynamic1)]</code>;  编译时候，可以通过，只有在执行时候，系统才会去找dynamic1方法对应的implement，若找不到这个执行，则就进行消息转发机制流程</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span> performSelector:<span class="keyword">@selector</span>(dynamic1)];  <span class="comment">// 这个invoke编译时候将转换为objc_msgSend()</span></span><br></pre></td></tr></table></figure>
+
 <p><img src="/images/runtime_forwarding1.png" alt=""></p>
 <p><img src="/images/runtime_forwarding2.png" alt=""></p>
-<p>在一个函数找不到时，Objective-C提供了三种方式去补救：</p>
-<p>1、调用resolveInstanceMethod给个机会让类添加这个实现这个函数</p>
-<p>2、调用forwardingTargetForSelector让别的对象去执行这个函数</p>
-<p>3、调用methodSignatureForSelector（函数符号制造器，）和forwardInvocation（函数执行器）灵活的将目标函数以其他形式执行。</p>
-<p>最后，如果都不中，调用doesNotRecognizeSelector抛出异常。</p>
+<ul>
+<li>在一个函数找不到时，Objective-C提供了三种方式去补救：<ol>
+<li>调用resolveInstanceMethod给个机会让类添加这个实现这个函数</li>
+<li>调用forwardingTargetForSelector让别的对象去执行这个函数</li>
+<li>调用methodSignatureForSelector（函数符号制造器，）和forwardInvocation（函数执行器）灵活的将目标函数以其他形式执行。</li>
+</ol>
+</li>
+</ul>
+<p>最后，如果都不中，调用<code>doesNotRecognizeSelector</code>抛出异常。</p>
 <p>参考  <a href="http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html" target="_blank" rel="noopener">http://www.cnblogs.com/biosli/p/NSObject_inherit_2.html</a></p>
 <p><img src="/images/runtime_forwarding3.png" alt=""></p>
-<p>在第三步调用 -(void)forwardInvocation:(NSInvocation *)anInvocation   之前为什么要调用<br>这个方法呢 -(NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector  ，因为method 由 sel 、type、implement  组成的，只知道一个sel肯定是不行的，所以通过MethodSignature方法给sel一个标签，就是定义下它的参数返回值类型。</p>
+<p>在第三步调用 <code>-(void)forwardInvocation:(NSInvocation *)anInvocation</code>   之前为什么要调用<br>这个方法呢 <code>-(NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector</code>  ，因为method 由 sel 、type、implement  组成的，只知道一个sel肯定是不行的，所以通过MethodSignature方法给sel一个标签，就是定义下它的参数返回值类型。</p>
 
       
 
